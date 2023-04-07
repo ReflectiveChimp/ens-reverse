@@ -1,0 +1,53 @@
+{
+  "name": "ens-reverse",
+  "description": "ENS reverse-only lookup",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": ">=16"
+  },
+  "files": [
+    "./dist"
+  ],
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "peerDependencies": {
+    "@ethersproject/abstract-provider": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/hash": "^5.7.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "husky install",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "@ethersproject/abstract-provider": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/hash": "^5.7.0",
+    "@ethersproject/providers": "^5.7.2",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.15.11",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "mocha": "^10.2.0",
+    "prettier": "^2.8.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  },
+  "lint-staged": {
+    "{src,test}/*.ts": "prettier --write"
+  },
+  "mocha": {
+    "loader": [
+      "ts-node/esm"
+    ],
+    "recursive": true,
+    "extension": [
+      "ts",
+      "js"
+    ]
+  }
+}
