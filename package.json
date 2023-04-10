@@ -1,7 +1,11 @@
 {
   "name": "ens-reverse",
   "description": "ENS reverse-only lookup",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ReflectiveChimp/ens-reverse.git"
+  },
   "main": "./dist/index.js",
   "license": "ISC",
   "type": "module",

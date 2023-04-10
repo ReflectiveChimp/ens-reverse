@@ -2,6 +2,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { ChainId } from './chains.js';
 import { allServices, Service, supportedServices } from './config.js';
 import { isDefined, isFulfilledResult } from './utils.js';
+export { ChainId } from './chains.js';
 
 export type Options = {
   services?: Service[];
