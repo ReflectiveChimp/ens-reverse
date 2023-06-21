@@ -23,6 +23,34 @@ describe('Space ID', () => {
       const resolvedAddress = await lookupDomain(domain, ChainId.BNB, provider);
       assert.equal(resolvedAddress, expectedAddress);
     });
+
+    it('should not resolve name to address on when given name without record', async () => {
+      const name = `unlikelytoexist${Date.now()}.bnb`;
+      const expectedAddress = undefined;
+      const resolvedAddress = await lookupDomain(name, ChainId.BNB, provider);
+      assert.equal(resolvedAddress, expectedAddress);
+    });
+
+    it('should return undefined when passed empty domain', async () => {
+      const name = '';
+      const expectedAddress = undefined;
+      const resolvedAddress = await lookupDomain(name, ChainId.BNB, provider);
+      assert.equal(resolvedAddress, expectedAddress);
+    });
+
+    it('should return undefined when passed invalid domain with no tld', async () => {
+      const name = 'invalid';
+      const expectedAddress = undefined;
+      const resolvedAddress = await lookupDomain(name, ChainId.BNB, provider);
+      assert.equal(resolvedAddress, expectedAddress);
+    });
+
+    it('should return undefined when passed invalid domain with unsupported tld', async () => {
+      const name = 'makoto.eth';
+      const expectedAddress = undefined;
+      const resolvedAddress = await lookupDomain(name, ChainId.BNB, provider);
+      assert.equal(resolvedAddress, expectedAddress);
+    });
   });
 
   describe('lookupAddress', () => {

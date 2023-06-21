@@ -33,4 +33,4 @@ await lookupAddress('0x0C3aCC82348E261056FD9D43817F7cB441bb9CfC', providers); //
 
 ## Dependencies
 
-`@ethersproject/abstract-provider`, `@ethersproject/contracts` and `@ethersproject/hash` are required peer dependencies.
+`@ethersproject/abstract-provider`, `@ethersproject/contracts`, `@ethersproject/hash` and `@ethersproject/address` are required peer dependencies.

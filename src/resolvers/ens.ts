@@ -1,13 +1,36 @@
 import { Provider } from '@ethersproject/abstract-provider';
 import { Contract } from '@ethersproject/contracts';
 import { ChainId } from '../chains.js';
+import { namehash } from '@ethersproject/hash';
+import { normalizeAddress } from '../utils.js';
+
+const registryAddresses: Partial<Record<ChainId, string>> = {
+  [ChainId.Ethereum]: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
+};
 
 const reverseRecordsAddresses: Partial<Record<ChainId, string>> = {
   [ChainId.Ethereum]: '0x3671aE578E63FdF66ad4F3E12CC0c0d71Ac7510C',
-  [ChainId.EthereumRopsten]: ' 0x72c33B247e62d0f1927E8d325d0358b8f9971C68',
-  [ChainId.EthereumRinkeby]: '0x196eC7109e127A353B709a20da25052617295F6f',
-  [ChainId.EthereumGoerli]: '0x333Fc8f550043f239a2CF79aEd5e9cF4A20Eb41e',
 };
+
+const registryAbi = [
+  {
+    inputs: [{ internalType: 'bytes32', name: 'node', type: 'bytes32' }],
+    name: 'resolver',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+];
+
+const resolverAbi = [
+  {
+    inputs: [{ internalType: 'bytes32', name: 'node', type: 'bytes32' }],
+    name: 'addr',
+    outputs: [{ internalType: 'address payable', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+];
 
 const reverseRecordsAbi = [
   {
@@ -18,6 +41,51 @@ const reverseRecordsAbi = [
     type: 'function',
   },
 ];
+
+export async function fetchResolverAddress(
+  hash: string,
+  chainId: ChainId,
+  provider: Provider
+): Promise<string | undefined> {
+  const registryAddress = registryAddresses[chainId];
+  if (!registryAddress) {
+    return undefined;
+  }
+
+  const contract = new Contract(registryAddress, registryAbi, provider);
+  try {
+    const resolved = await contract.functions['resolver']!(hash);
+    return resolved?.[0] || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Lookup the address for a domain name
+ * @param domain Domain name
+ * @param chainId Numeric chain ID
+ * @param provider Ethers provider
+ */
+export async function lookupDomain(domain: string, chainId: ChainId, provider: Provider) {
+  const hash = namehash(domain);
+  if (!hash) {
+    return undefined;
+  }
+
+  const resolverAddress = await fetchResolverAddress(hash, chainId, provider);
+  if (!resolverAddress) {
+    return undefined;
+  }
+
+  const resolverContract = new Contract(resolverAddress, resolverAbi, provider);
+  try {
+    const resolved = await resolverContract.functions['addr']!(hash);
+    return normalizeAddress(resolved?.[0]);
+  } catch {
+    return undefined;
+  }
+}
 
 /**
  * Lookup the domain name for an address

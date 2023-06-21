@@ -2,12 +2,11 @@ import { ChainId } from '../chains.js';
 import { Provider } from '@ethersproject/abstract-provider';
 import { Contract } from '@ethersproject/contracts';
 import { namehash } from '@ethersproject/hash';
+import { normalizeAddress } from '../utils.js';
 
 const registryAddresses: Partial<Record<ChainId, string>> = {
   [ChainId.BNB]: '0x08CEd32a7f3eeC915Ba84415e9C07a7286977956',
-  [ChainId.BNBTestnet]: '0xfFB52185b56603e0fd71De9de4F6f902f05EEA23',
   [ChainId.Arbitrum]: '0x4a067EE58e73ac5E4a43722E008DFdf65B2bF348',
-  [ChainId.ArbitrumGoerli]: '0x1f70fc8de5669eaa8C9ce72257c94500DC5ff2E4',
 };
 
 const registryAbi = [
@@ -79,7 +78,7 @@ export async function lookupDomain(domain: string, chainId: ChainId, provider: P
   const resolverContract = new Contract(resolverAddress, resolverAbi, provider);
   try {
     const resolved = await resolverContract.functions['addr']!(hash);
-    return resolved?.[0] || undefined;
+    return normalizeAddress(resolved?.[0]);
   } catch {
     return undefined;
   }
