@@ -2,7 +2,7 @@ import { ChainId } from '../chains.js';
 import { Provider } from '@ethersproject/abstract-provider';
 import { Contract } from '@ethersproject/contracts';
 import { namehash } from '@ethersproject/hash';
-import { normalizeAddress } from '../utils.js';
+import { normalizeAddress, ZERO_ADDRESS } from '../utils.js';
 
 const registryAddresses: Partial<Record<ChainId, string>> = {
   [ChainId.BNB]: '0x08CEd32a7f3eeC915Ba84415e9C07a7286977956',
@@ -104,7 +104,7 @@ export async function lookupAddress(
   }
 
   const resolverAddress = await fetchResolverAddress(reverseHash, chainId, provider);
-  if (!resolverAddress) {
+  if (!resolverAddress || resolverAddress === ZERO_ADDRESS) {
     return undefined;
   }
 

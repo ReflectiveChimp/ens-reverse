@@ -1,5 +1,7 @@
 import { getAddress } from '@ethersproject/address';
 
+export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 export function isFulfilledResult<T>(
   result: PromiseSettledResult<T>
 ): result is PromiseFulfilledResult<T> {

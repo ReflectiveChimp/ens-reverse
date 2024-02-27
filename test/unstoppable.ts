@@ -10,7 +10,7 @@ describe('Unstoppable Domains', () => {
   describe('lookupAddress', () => {
     it('should resolve address to name on polygon', async () => {
       const address = '0x0C3aCC82348E261056FD9D43817F7cB441bb9CfC';
-      const expectedName = 'wendyzhou.nft';
+      const expectedName = 'wendy.x';
       const resolvedName = await lookupAddress(address, ChainId.Polygon, polygonProvider);
       assert.equal(resolvedName, expectedName);
     });
@@ -32,7 +32,7 @@ describe('Unstoppable Domains', () => {
 
   describe('lookupDomain', () => {
     it('should resolve domain to address on polygon', async () => {
-      const name = 'wendyzhou.nft';
+      const name = 'wendy.x';
       const expectedAddress = '0x0C3aCC82348E261056FD9D43817F7cB441bb9CfC';
       const resolvedAddress = await lookupDomain(name, ChainId.Polygon, polygonProvider);
       assert.equal(resolvedAddress, expectedAddress);

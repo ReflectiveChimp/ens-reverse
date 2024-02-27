@@ -2,7 +2,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Contract } from '@ethersproject/contracts';
 import { ChainId } from '../chains.js';
 import { namehash } from '@ethersproject/hash';
-import { normalizeAddress } from '../utils.js';
+import { normalizeAddress, ZERO_ADDRESS } from '../utils.js';
 
 const registryAddresses: Partial<Record<ChainId, string>> = {
   [ChainId.Ethereum]: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
@@ -74,7 +74,7 @@ export async function lookupDomain(domain: string, chainId: ChainId, provider: P
   }
 
   const resolverAddress = await fetchResolverAddress(hash, chainId, provider);
-  if (!resolverAddress) {
+  if (!resolverAddress || resolverAddress === ZERO_ADDRESS) {
     return undefined;
   }
 

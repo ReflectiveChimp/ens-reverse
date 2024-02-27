@@ -27,14 +27,14 @@ describe('All', () => {
 
     it('should resolve address to unstoppable domains name on polygon', async () => {
       const address = '0x0C3aCC82348E261056FD9D43817F7cB441bb9CfC';
-      const expectedName = ['wendyzhou.nft'];
+      const expectedName = ['wendy.x'];
       const resolvedName = await lookupAddress(address, providers);
       assert.deepEqual(resolvedName, expectedName);
     });
 
     it('should resolve address to unstoppable domains name on ethereum', async () => {
       const address = '0xF40fE06c96Fb6be8cf1995dd039Bb59408656046';
-      const expectedName = ['giacomochiarot.crypto'];
+      const expectedName = ['giacomochiarot.eth', 'giacomochiarot.crypto'];
       const resolvedName = await lookupAddress(address, providers);
       assert.deepEqual(resolvedName, expectedName);
     });
@@ -56,7 +56,7 @@ describe('All', () => {
     });
 
     it('should resolve unstoppable domains name to address on polygon', async () => {
-      const domain = 'wendyzhou.nft';
+      const domain = 'wendy.x';
       const expectedAddress = '0x0C3aCC82348E261056FD9D43817F7cB441bb9CfC';
       const resolvedAddress = await lookupDomain(domain, providers);
       assert.deepEqual(resolvedAddress, expectedAddress);
